@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: traefik-private
+  name: hello-gitops-ingress
+  namespace: hello-gitops
+spec:
+  entryPoints:
+  - hello-gitops-internal
+  routes:
+  - kind: Rule
+    match: HostSNI(`hello-gitops.int.dev.example.com`)
+    services:
+    - kind: Service
+      name: hello-gitops
+      port: 8080
+      scheme: http
+  tls: {}

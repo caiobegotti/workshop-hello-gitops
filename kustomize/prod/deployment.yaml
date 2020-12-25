@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hello-gitops
+  name: hello-gitops-prod
+spec:
+  replicas: 5
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: hello-gitops
+  template:
+    metadata:
+      labels:
+        app: hello-gitops
+    spec:
+      containers:
+        - image: hello-gitops
+          name: hello-gitops
+          ports:
+          - name: http
+            containerPort: 8080
+          volumeMounts:
+            - mountPath: /opt
+              name: hello-gitops-volume-prod
+      restartPolicy: Always
+      volumes:
+      - name: hello-gitops-volume-prod
+        persistentVolumeClaim:
+          claimName: hello-gitops-volume-prod

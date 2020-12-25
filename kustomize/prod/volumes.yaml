@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hello-gitops-volume-prod
+  labels:
+    type: local
+spec:
+  storageClassName: fast
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hello-gitops-volume-prod
+spec:
+  storageClassName: fast
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
